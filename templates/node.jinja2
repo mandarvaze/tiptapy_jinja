@@ -1,0 +1,33 @@
+{% macro render_node(node) %}
+  {%- for item in node %}
+    {{ item }}
+    {% if item['content'] %}
+    {# Print for debugging purpose #}
+    node[content]
+    {{ loop.index0 }}
+    {{ node['content'] }}
+    {# {{ loop(node['content']) }} #}
+      {{ render_node(item) }}
+    {% else %}
+      {% if node['type'] == 'doc' %}
+        doc
+        {{ render_node(item['content']) }}
+      {% elif node['type'] == 'text' %}
+        text
+        {{ item['content'] }}
+      {% else %}
+        Unsupported node type {{node['type']}}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
+{%- if css_class -%}
+<{{wrap_tag}}{{css_class}}>
+{%- else -%}
+<{{wrap_tag}}>
+{%- endif -%}
+
+{{ render_node(node) }}
+</{{wrap_tag}}>
