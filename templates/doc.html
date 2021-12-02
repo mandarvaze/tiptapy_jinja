@@ -1,0 +1,9 @@
+<html>
+<body>
+{%- for item in node.content -%}
+  {%- with template = item.type + '.html' %} 
+    {% include template %}
+  {%- endwith -%}
+{%- endfor -%}
+</body>
+<html>
